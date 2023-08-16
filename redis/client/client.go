@@ -55,7 +55,9 @@ func (rc *RedisClient) send(cmd string) (any, error) {
 		return "", err
 	}
 	conn, err := net.Dial("tcp", rc.Options.Addr)
-	defer conn.Close()
+	defer func(conn net.Conn) {
+		_ = conn.Close()
+	}(conn)
 	if err != nil {
 		return "", err
 	}

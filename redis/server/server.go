@@ -87,10 +87,6 @@ func (s *Server) Run() {
 	}
 }
 
-func (s *Server) Close() {
-	s.Close()
-}
-
 func (s *Server) handleRequest(conn net.Conn) {
 	buf := make([]byte, 1024)
 	// read the incoming connection into the buffer
@@ -259,7 +255,7 @@ func (s *Server) handleIncrDecr(args []string, increment bool) string {
 		s.dict[key] = redisValue
 	}
 
-	redisVal, _ := s.dict[key]
+	redisVal := s.dict[key]
 	// An error is returned if the key contains a value of the wrong type or contains a string that can not be represented as integer
 	val, err := strconv.ParseInt(anyToString(redisVal.value), 10, 64)
 	if err != nil {
