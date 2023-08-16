@@ -23,6 +23,7 @@ func Routes() http.Handler {
 	// App routes
 	r.Post("/app", appHandler.Post)
 	r.Get("/{shortUrl}", appHandler.Get)
+	r.Delete("/{shortUrl}", appHandler.Delete)
 
 	return r
 }

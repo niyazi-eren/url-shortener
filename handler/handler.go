@@ -67,6 +67,21 @@ func (a *AppHandler) Get(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, uri.LongUrl, http.StatusFound)
 }
 
+// Delete Request Handler - Delete /{shortUrl} - delete url if found
+func (a *AppHandler) Delete(w http.ResponseWriter, r *http.Request) {
+	key := chi.URLParam(r, "shortUrl")
+	count, err := a.Db.Delete(key)
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+	if count > 0 {
+		w.WriteHeader(http.StatusOK)
+	} else {
+		http.NotFound(w, r)
+	}
+}
+
 func (a *AppHandler) generateAndSaveUrl(url string) (entity.Url, error) {
 	hash, _ := hashWithSize([]byte(url), 4)
 	hashString := hex.EncodeToString(hash)

@@ -40,6 +40,15 @@ func (rc *RedisClient) Get(key string) (string, error) {
 	return anyToString(result), nil
 }
 
+func (rc *RedisClient) Delete(key string) (int, error) {
+	result, err := rc.send(fmt.Sprintf("%s %s", "DEL", key))
+	if err != nil {
+		return 0, err
+	}
+	res := result.(int)
+	return res, nil
+}
+
 func (rc *RedisClient) send(cmd string) (any, error) {
 	respCmd, err := resp.Encode(cmd)
 	if err != nil {
