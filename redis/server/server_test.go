@@ -59,8 +59,8 @@ func TestServer_Get(t *testing.T) {
 }
 
 func TestServer_SetExpire(t *testing.T) {
-	_, err := send("SET name JOHN PX 10")
-	_, err = send("SET test TEST PX 3500")
+	_, _ = send("SET name JOHN PX 10")
+	_, err := send("SET test TEST PX 3500")
 	if err != nil {
 		t.Errorf(err.Error())
 	}
@@ -117,13 +117,10 @@ func TestServer_Exists_Del(t *testing.T) {
 }
 
 func TestServer_Incr_Decr(t *testing.T) {
-	_, err := send("SET one 1")
-	_, err = send("SET two two")
-	_, err = send("SET t1 123")
-	_, err = send("SET t2 123000000000000000000000000")
-	if err != nil {
-		t.Errorf(err.Error())
-	}
+	_, _ = send("SET one 1")
+	_, _ = send("SET two two")
+	_, _ = send("SET t1 123")
+	_, _ = send("SET t2 123000000000000000000000000")
 
 	tests := []struct {
 		cmd  string
@@ -161,7 +158,7 @@ func TestServer_Incr_Decr(t *testing.T) {
 }
 
 func TestServer_RPush_LPush(t *testing.T) {
-	send("SET one 1")
+	_, _ = send("SET one 1")
 	tests := []struct {
 		cmd  string
 		want any
@@ -236,7 +233,9 @@ func send(cmd string) (any, error) {
 		return "", err
 	}
 	conn, err := net.Dial("tcp", "localhost"+testPort)
-	defer conn.Close()
+	defer func(conn net.Conn) {
+		_ = conn.Close()
+	}(conn)
 	if err != nil {
 		return "", err
 	}

@@ -19,5 +19,5 @@ func main() {
 		Addr:    port,
 		Handler: router.Routes(),
 	}
-	srv.ListenAndServe()
+	_ = srv.ListenAndServe()
 }

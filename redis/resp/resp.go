@@ -209,30 +209,34 @@ func merge(elems []string) ([]string, error) {
 		respType := string(elems[i][0])
 		switch respType {
 		case BulkStrings:
-			if err := mergeBulkString(elems, i); err != nil {
+			arr, err := mergeBulkString(elems, i)
+			if err != nil {
 				return nil, err
 			}
+			elems = arr
 		case Arrays:
-			if err := mergeArray(elems, i); err != nil {
+			arr, err := mergeArray(elems, i)
+			if err != nil {
 				return nil, err
 			}
+			elems = arr
 		}
 	}
 	return elems, nil
 }
 
-func mergeBulkString(elems []string, i int) error {
+func mergeBulkString(elems []string, i int) ([]string, error) {
 	var bulk = elems[i] + CRLF + elems[i+1]
 	elems[i] = bulk
 	elems = append(elems[:i+1], elems[i+2:]...)
-	return nil
+	return elems, nil
 }
 
-func mergeArray(elems []string, i int) error {
+func mergeArray(elems []string, i int) ([]string, error) {
 	// read number of elements
 	size, err := strconv.Atoi(elems[i][1:])
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	values := elems[i] + CRLF
@@ -241,7 +245,7 @@ func mergeArray(elems []string, i int) error {
 	}
 	elems[i] = values
 	elems = append(elems[:i+1], elems[i+size+1:]...)
-	return nil
+	return elems, nil
 }
 
 func byteSliceToString(s []byte) string {
