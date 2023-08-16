@@ -9,6 +9,7 @@ import (
 type KVStore interface {
 	Set(key string, value string) (string, error)
 	Get(key string) (string, error)
+	Delete(key string) (int, error)
 }
 
 type AppRepository struct {
@@ -27,6 +28,7 @@ func NewAppRepository() *AppRepository {
 type IAppRepository interface {
 	Save(role *entity.Url) (*entity.Url, error)
 	Find(key string) (*entity.Url, error)
+	Delete(key string) (int, error)
 }
 
 func (r *AppRepository) Save(uri *entity.Url) (*entity.Url, error) {
@@ -47,4 +49,12 @@ func (r *AppRepository) Find(hash string) (*entity.Url, error) {
 	}
 	uri := entity.Url{LongUrl: value, Hash: value}
 	return &uri, nil
+}
+
+func (r *AppRepository) Delete(hash string) (int, error) {
+	value, err := r.Db.Delete(hash)
+	if err != nil {
+		return 0, err
+	}
+	return value, nil
 }
