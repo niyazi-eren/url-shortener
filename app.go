@@ -19,5 +19,8 @@ func main() {
 		Addr:    port,
 		Handler: router.Routes(),
 	}
-	_ = srv.ListenAndServe()
+	err := srv.ListenAndServe()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 }

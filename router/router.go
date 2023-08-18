@@ -24,6 +24,7 @@ func Routes() http.Handler {
 	r.Post("/app", appHandler.Post)
 	r.Get("/{shortUrl}", appHandler.Get)
 	r.Delete("/{shortUrl}", appHandler.Delete)
+	r.Get("/health", appHandler.HealthCheck)
 
 	return r
 }
