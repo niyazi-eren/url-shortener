@@ -82,6 +82,11 @@ func (a *AppHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Get /health request handler - returns http.StatusOK
+func (a *AppHandler) HealthCheck(w http.ResponseWriter, _ *http.Request) {
+	w.WriteHeader(http.StatusOK)
+}
+
 func (a *AppHandler) generateAndSaveUrl(url string) (entity.Url, error) {
 	hash, _ := hashWithSize([]byte(url), 4)
 	hashString := hex.EncodeToString(hash)
