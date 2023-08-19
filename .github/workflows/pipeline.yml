@@ -38,6 +38,9 @@ jobs:
     - name: Build
       run: go build -v ./...
 
+    - name: Test
+      run: go test -v ./...
+
   terraform:
     runs-on: ubuntu-latest
     #map a step output to a job output
