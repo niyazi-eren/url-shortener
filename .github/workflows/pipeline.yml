@@ -71,14 +71,14 @@ jobs:
         run: echo "test=http://$(terraform output -raw public_ip):8080/health" >> "$GITHUB_OUTPUT"
 
       - name: check URL
-        run: echo $URL
+        run: echo $test
 
       - name: check URL2
-        run: echo ${{ env.URL }}
+        run: echo ${{ steps.save.outputs.test }}
 
       - name: check URL3
         run: |
-          printf '%s\n' "$URL"
+          printf '%s\n' "$test"
 
   health_check:
     needs: terraform
@@ -87,6 +87,7 @@ jobs:
       - name: Check the deployed service URL
         env:
           OUTPUT1: ${{needs.terraform.outputs.output1}}
+        run: echo $OUTPUT1
         if: github.event_name == 'push'
         uses: jtalk/url-health-check-action@v3
         with:
