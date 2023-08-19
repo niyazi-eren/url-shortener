@@ -52,6 +52,7 @@ jobs:
       - name: Setup Terraform with specified version on the runner
         uses: hashicorp/setup-terraform@v2
         with:
+            terraform_wrapper: false
             terraform_version: 1.3.0
       - name: Terraform init
         id: init
@@ -60,3 +61,23 @@ jobs:
       - name: Terraform Apply
         if: github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
+
+      - name: save public ip
+        run: echo public_ip=$(terraform output public_ip) >> "$GITHUB_ENV"
+
+  health_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the deployed service URL
+        if: github.event_name == 'push'
+        uses: jtalk/url-health-check-action@v3
+        with:
+          # Check the following URLs one by one sequentially
+          url: http://$public_ip:8080/health
+
+          run: echo "http://$public_ip:8080/health"
+          # Follow redirects, or just report success on 3xx status codes
+          max-attempts: 60 # Optional, defaults to 1
+          # Delay between retries
+          retry-delay: 5s # Optional, only applicable to max-attempts > 1
+          # Retry all errors, including 404. This option might trigger curl upgrade.
