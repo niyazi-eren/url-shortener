@@ -70,36 +70,18 @@ jobs:
         id: save
         run: echo "url=http://$(terraform output -raw public_ip):8080/health" >> "$GITHUB_OUTPUT"
 
-      - name: check URL
-        run: echo $url
-
-      - name: check URL2
-        run: echo ${{ steps.save.outputs.health_endpoint }}
-
   health_check:
     needs: terraform
     runs-on: ubuntu-latest
     steps:
-
-      - name: check url 1
-        env:
-          URL: ${{needs.terraform.outputs.health_endpoint}}
-        run: echo $URL
-
-      - name: check url 2
-        env:
-          URL: ${{needs.terraform.outputs.health_endpoint}}
-        run: echo ${{ env.URL }}
-
       - name: Check the deployed service URL
         env:
           URL: ${{needs.terraform.outputs.health_endpoint}}
         if: github.event_name == 'push'
         uses: jtalk/url-health-check-action@v3
         with:
-          # Check the following URLs one by one sequentially
+          # Check the following URL
           url: ${{ env.URL }}
           max-attempts: 60 # Optional, defaults to 1
           # Delay between retries
           retry-delay: 5s # Optional, only applicable to max-attempts > 1
-          # Retry all errors, including 404. This option might trigger curl upgrade.
