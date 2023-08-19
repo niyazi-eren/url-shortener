@@ -1,7 +1,5 @@
 provider "aws" {
-  region                   = "eu-west-3"
-  profile                  = "buciman"
-  shared_credentials_files = ["C:/Users/neren/.aws/config"]
+  region = "eu-west-3"
 }
 
 terraform {
