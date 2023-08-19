@@ -64,13 +64,17 @@ jobs:
         run: terraform apply -auto-approve -input=false
 
       - name: save public ip
-        run: echo URL=http://$(terraform output -raw public_ip):8080/health >> "$GITHUB_OUTPUT"
+        run: echo "URL=http://$(terraform output -raw public_ip):8080/health" >> "$GITHUB_ENV"
 
       - name: check URL
         run: echo $URL
 
       - name: check URL2
-        run: echo ${{ steps.terraform.outputs.URL }}
+        run: echo ${{ env.URL }}
+
+      - name: check URL3
+        run: |
+          printf '%s\n' "$URL"
 
   health_check:
     needs: terraform
@@ -82,8 +86,6 @@ jobs:
         with:
           # Check the following URLs one by one sequentially
           url: ${{ steps.terraform.outputs.URL }}
-
-          # Follow redirects, or just report success on 3xx status codes
           max-attempts: 60 # Optional, defaults to 1
           # Delay between retries
           retry-delay: 5s # Optional, only applicable to max-attempts > 1
