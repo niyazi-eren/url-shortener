@@ -84,10 +84,20 @@ jobs:
     needs: terraform
     runs-on: ubuntu-latest
     steps:
-      - name: Check the deployed service URL
+
+      - name: check url 1
         env:
           OUTPUT1: ${{needs.terraform.outputs.output1}}
         run: echo $OUTPUT1
+
+      - name: check url 2
+        env:
+          OUTPUT1: ${{needs.terraform.outputs.output1}}
+        run: echo ${{ env.OUTPUT1 }}
+
+      - name: Check the deployed service URL
+        env:
+          OUTPUT1: ${{needs.terraform.outputs.output1}}
         if: github.event_name == 'push'
         uses: jtalk/url-health-check-action@v3
         with:
