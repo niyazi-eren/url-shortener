@@ -9,3 +9,19 @@ variable "linux_ami" {
   type        = string
   default     = "ami-030633f630317131c"
 }
+
+variable "region" {
+  description = "aws region"
+  type        = string
+  default     = "eu-west-3"
+}
+
+variable "backend_bucket_name" {
+  type = string
+  default = "terraform-url-shortener-state"
+}
+
+variable "backend_locks" {
+  type = string
+  default = "url-shortener-locks"
+}
