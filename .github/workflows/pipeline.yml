@@ -40,6 +40,9 @@ jobs:
 
   terraform:
     runs-on: ubuntu-latest
+    #map a step output to a job output
+    outputs:
+      output1: ${{ steps.save.outputs.test }}
     defaults:
       run:
         shell: bash
@@ -64,7 +67,8 @@ jobs:
         run: terraform apply -auto-approve -input=false
 
       - name: save public ip
-        run: echo "URL=http://$(terraform output -raw public_ip):8080/health" >> "$GITHUB_ENV"
+        id: save
+        run: echo "test=http://$(terraform output -raw public_ip):8080/health" >> "$GITHUB_OUTPUT"
 
       - name: check URL
         run: echo $URL
@@ -81,11 +85,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check the deployed service URL
+        env:
+          OUTPUT1: ${{needs.terraform.outputs.output1}}
         if: github.event_name == 'push'
         uses: jtalk/url-health-check-action@v3
         with:
           # Check the following URLs one by one sequentially
-          url: $URL
+          url: $OUTPUT1
           max-attempts: 60 # Optional, defaults to 1
           # Delay between retries
           retry-delay: 5s # Optional, only applicable to max-attempts > 1
