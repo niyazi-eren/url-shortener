@@ -73,6 +73,7 @@ jobs:
         run: echo ${{ steps.terraform.outputs.URL }}
 
   health_check:
+    needs: terraform
     runs-on: ubuntu-latest
     steps:
       - name: Check the deployed service URL
