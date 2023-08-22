@@ -9,11 +9,14 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"os"
 	"url-shortener/model/entity"
 	"url-shortener/model/request"
 	"url-shortener/model/response"
 	"url-shortener/repository"
 )
+
+var PUBLIC_DNS = "PUBLIC_DNS"
 
 type AppHandler struct {
 	Db *repository.AppRepository
@@ -124,7 +127,7 @@ func generateResponse(url entity.Url) response.Response {
 	return response.Response{
 		Key:      url.Hash,
 		LongUrl:  url.LongUrl,
-		ShortUrl: "http://localhost/" + url.Hash,
+		ShortUrl: "http://" + os.Getenv(PUBLIC_DNS) + ":8080/" + url.Hash,
 	}
 }
 
