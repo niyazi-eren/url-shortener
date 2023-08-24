@@ -8,4 +8,18 @@ export PUBLIC_DNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname
 git clone https://github.com/niyazi-eren/url-shortener.git
 cd url-shortener
 sudo go build -buildvcs=false
-./url-shortener
+./url-shortener &
+
+# Install npm & node
+curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash
+apt-get install -y nodejs
+
+cd web/app
+npm i vite
+npm i
+npm i -D @zerodevx/svelte-toast
+npm i -g http-server
+npm run build
+
+cd dist
+http-server -p 80
