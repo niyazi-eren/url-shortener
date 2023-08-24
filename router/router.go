@@ -10,7 +10,7 @@ import (
 func Routes() http.Handler {
 	r := chi.NewRouter()
 	r.Use(cors.Handler(cors.Options{
-		AllowedOrigins:   []string{"http://*", "https://*"},
+		AllowOriginFunc:  AllowOriginFunc,
 		AllowedMethods:   []string{"GET", "POST", "DELETE"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token", "X-PINGOTHER", "Referer", "Sec-Ch-Ua", "Sec-Ch-Ua-Mobile", "Sec-Ch-Ua-Platform", "User-Agent"},
 		ExposedHeaders:   []string{"*"},
@@ -27,4 +27,8 @@ func Routes() http.Handler {
 	r.Get("/health", appHandler.HealthCheck)
 
 	return r
+}
+
+func AllowOriginFunc(*http.Request, string) bool {
+	return true
 }
