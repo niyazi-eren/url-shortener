@@ -15,6 +15,12 @@ curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash
 apt-get install -y nodejs
 
 cd web/app
+
+# create env file
+touch .env
+chmod u+w .env
+echo "PUBLIC_DNS=\"$PUBLIC_DNS\"" > .env
+
 npm i vite
 npm i
 npm i -D @zerodevx/svelte-toast

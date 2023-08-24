@@ -8,11 +8,17 @@
     short_url: string;
   }
 
+  const public_dns = import.meta.env.VITE_PUBLIC_DNS;
+  const port = ':8080';
+  const resource = 'http://' + public_dns + port;
+
   let url = '';
   let data: Response;
 
   async function shortenUrl() {
-    const response = await fetch('http://localhost:8080/app', {
+    const path = '/app'
+    const endpoint =  resource + path;
+    const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
