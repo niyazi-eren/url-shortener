@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "svelte-share": "^0.0.0",
+    "vite": "^4.4.9"
+  },
+  "devDependencies": {
+    "@zerodevx/svelte-toast": "^0.9.5"
+  }
+}
