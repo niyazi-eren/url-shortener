@@ -1,6 +1,6 @@
 <script lang="ts">
   import {SvelteToast, toast} from '@zerodevx/svelte-toast'
-  import ShortenedUrl from "./shortUrlDisplay.svelte";
+  import ShortenedUrl from "./ShortUrlDisplay.svelte";
 
   interface Response {
     key: string;
