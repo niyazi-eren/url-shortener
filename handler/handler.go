@@ -127,7 +127,7 @@ func generateResponse(url entity.Url) response.Response {
 	return response.Response{
 		Key:      url.Hash,
 		LongUrl:  url.LongUrl,
-		ShortUrl: "http://" + os.Getenv(PUBLIC_DNS) + ":8080/" + url.Hash,
+		ShortUrl: "http://" + os.Getenv(PUBLIC_DNS) + "/" + url.Hash,
 	}
 }
 
