@@ -32,8 +32,15 @@ resource "aws_security_group" "instance" {
   }
 
   ingress {
-    from_port   = var.server_port
-    to_port     = var.server_port
+    from_port   = var.backend_port
+    to_port     = var.backend_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = var.public_port
+    to_port     = var.public_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

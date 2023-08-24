@@ -1,5 +1,11 @@
-variable "server_port" {
-  description = "The port the server will use for HTTP requests"
+variable "backend_port" {
+  description = "The backend server port"
+  type        = number
+  default     = 8080
+}
+
+variable "public_port" {
+  description = "The server port"
   type        = number
   default     = 80
 }
