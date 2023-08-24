@@ -19,7 +19,7 @@ cd web/app
 # create env file
 touch .env
 chmod u+w .env
-echo "PUBLIC_DNS=\"$PUBLIC_DNS\"" > .env
+echo "VITE_PUBLIC_DNS=\"$PUBLIC_DNS\"" > .env
 
 npm i vite
 npm i
