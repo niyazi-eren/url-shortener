@@ -20,6 +20,7 @@ cd web/app
 touch .env
 chmod u+w .env
 echo "VITE_PUBLIC_DNS=\"$PUBLIC_DNS\"" > .env
+echo "VITE_PORT=\":80\"" >> .env
 
 npm i vite
 npm i
@@ -28,4 +29,9 @@ npm i -g http-server
 npm run build
 
 cd dist
-http-server -p 80
+
+# install certificate
+echo -e "FR\nRhone\nLyon\nMy Company\nIT\nlocalhost\ceo@example.com\n" |
+openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem
+
+http-server -S -p 443 -C cert.pem

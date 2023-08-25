@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	port := ":8080"
+	port := ":80"
 
 	if portEnv := os.Getenv("PORT"); portEnv != "" {
 		port = portEnv

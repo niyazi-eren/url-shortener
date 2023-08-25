@@ -9,7 +9,7 @@
   }
 
   const public_dns = import.meta.env.VITE_PUBLIC_DNS;
-  const port = ':8080';
+  const port = import.meta.env.VITE_PORT;
   const resource = 'http://' + public_dns + port;
 
   let url = '';
