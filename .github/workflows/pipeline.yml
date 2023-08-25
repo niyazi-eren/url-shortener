@@ -71,7 +71,7 @@ jobs:
 
       - name: save public ip
         id: save
-        run: echo "url=http://$(terraform output -raw public_ip):80/health" >> "$GITHUB_OUTPUT"
+        run: echo "url=http://$(terraform output -raw public_ip):8080/health" >> "$GITHUB_OUTPUT"
 
   health_check:
     needs: terraform

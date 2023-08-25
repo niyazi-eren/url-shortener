@@ -1,13 +1,13 @@
 variable "backend_port" {
   description = "The backend server port"
   type        = number
-  default     = 80
+  default     = 8080
 }
 
 variable "public_port" {
   description = "The server port"
   type        = number
-  default     = 443
+  default     = 80
 }
 
 variable "linux_ami" {
