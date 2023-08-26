@@ -3,20 +3,14 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"os"
+	"url-shortener/const"
 	"url-shortener/router"
 )
 
 func main() {
-	port := ":8080"
-
-	if portEnv := os.Getenv("PORT"); portEnv != "" {
-		port = portEnv
-	}
-
-	fmt.Println("starting server on port", port)
+	fmt.Println("starting server on port", constants.PORT)
 	srv := &http.Server{
-		Addr:    port,
+		Addr:    constants.PORT,
 		Handler: router.Routes(),
 	}
 	err := srv.ListenAndServe()

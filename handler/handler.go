@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	constants "url-shortener/const"
 	"url-shortener/model/entity"
 	"url-shortener/model/request"
 	"url-shortener/model/response"
@@ -127,7 +128,7 @@ func generateResponse(url entity.Url) response.Response {
 	return response.Response{
 		Key:      url.Hash,
 		LongUrl:  url.LongUrl,
-		ShortUrl: "http://" + os.Getenv(PUBLIC_DNS) + "/" + url.Hash,
+		ShortUrl: "http://" + os.Getenv(PUBLIC_DNS) + constants.PORT + "/" + url.Hash,
 	}
 }
 
