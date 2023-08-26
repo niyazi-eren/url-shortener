@@ -1,19 +1,15 @@
 <script lang="ts">
   import {SvelteToast, toast} from '@zerodevx/svelte-toast'
   import ShortenedUrl from "./ShortUrlDisplay.svelte";
+  import type {Resp} from "./ShortenUrlPage.types.svelte";
 
-  interface Response {
-    key: string;
-    long_url: string;
-    short_url: string;
-  }
 
   const public_dns = import.meta.env.VITE_PUBLIC_DNS;
   const port = import.meta.env.VITE_PORT;
   const resource = 'http://' + public_dns + port;
 
   let url = '';
-  let data: Response;
+  let data: Resp;
 
   async function shortenUrl() {
     const path = '/app'
