@@ -5,6 +5,8 @@ import (
 	"github.com/go-chi/cors"
 	"net/http"
 	"url-shortener/handler"
+	redis "url-shortener/redis/client"
+	"url-shortener/repository"
 )
 
 func Routes() http.Handler {
@@ -18,7 +20,7 @@ func Routes() http.Handler {
 		MaxAge:           300,
 	}))
 
-	appHandler := handler.NewAppHandler()
+	appHandler := handler.NewAppHandler(repository.NewAppRepository(redis.NewDefaultClient()))
 
 	// App routes
 	r.Post("/app", appHandler.Post)

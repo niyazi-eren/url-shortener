@@ -20,11 +20,11 @@ import (
 var PUBLIC_DNS = "PUBLIC_DNS"
 
 type AppHandler struct {
-	Db *repository.AppRepository
+	repository *repository.AppRepository
 }
 
-func NewAppHandler() *AppHandler {
-	return &AppHandler{Db: repository.NewAppRepository()}
+func NewAppHandler(repo *repository.AppRepository) *AppHandler {
+	return &AppHandler{repository: repo}
 }
 
 // Post Request Handler - POST /app - shorten url
@@ -63,7 +63,7 @@ func (a *AppHandler) Post(w http.ResponseWriter, r *http.Request) {
 // Get Request Handler - GET /{shortUrl} - redirect to url if found
 func (a *AppHandler) Get(w http.ResponseWriter, r *http.Request) {
 	key := chi.URLParam(r, "shortUrl")
-	uri, err := a.Db.Find(key)
+	uri, err := a.repository.Find(key)
 	if err != nil {
 		http.NotFound(w, r)
 		return
@@ -74,7 +74,10 @@ func (a *AppHandler) Get(w http.ResponseWriter, r *http.Request) {
 // Delete Request Handler - Delete /{shortUrl} - delete url if found
 func (a *AppHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	key := chi.URLParam(r, "shortUrl")
-	count, err := a.Db.Delete(key)
+	if key == "" && r.URL.Path != "" {
+		key = r.URL.Path[1:]
+	}
+	count, err := a.repository.Delete(key)
 	if err != nil {
 		http.NotFound(w, r)
 		return
@@ -95,7 +98,7 @@ func (a *AppHandler) generateAndSaveUrl(url string) (entity.Url, error) {
 	hash, _ := hashWithSize([]byte(url), 4)
 	hashString := hex.EncodeToString(hash)
 	uri := entity.Url{LongUrl: url, Hash: hashString}
-	u, err := a.Db.Save(&uri)
+	u, err := a.repository.Save(&uri)
 	return *u, err
 }
 
@@ -116,7 +119,6 @@ func validateURL(uri string) error {
 	if uri == "" {
 		return errors.New("error: the URL is empty")
 	}
-
 	_, err := url.ParseRequestURI(uri)
 	if err != nil {
 		return errors.New("error: invalid URL")

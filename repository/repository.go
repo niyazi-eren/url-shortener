@@ -3,7 +3,6 @@ package repository
 import (
 	"errors"
 	"url-shortener/model/entity"
-	redis "url-shortener/redis/client"
 )
 
 type KVStore interface {
@@ -16,13 +15,8 @@ type AppRepository struct {
 	Db KVStore
 }
 
-func NewAppRepository() *AppRepository {
-	var redisClient = redis.NewClient(&redis.RedisOptions{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
-	})
-	return &AppRepository{Db: redisClient}
+func NewAppRepository(db KVStore) *AppRepository {
+	return &AppRepository{Db: db}
 }
 
 type IAppRepository interface {

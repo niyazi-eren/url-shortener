@@ -17,7 +17,16 @@ type RedisClient struct {
 	Options *RedisOptions
 }
 
-func NewClient(config *RedisOptions) *RedisClient {
+func NewDefaultClient() *RedisClient {
+	var redisClient = newClient(&RedisOptions{
+		Addr:     "localhost:6379",
+		Password: "", // no password set
+		DB:       0,  // use default DB
+	})
+	return redisClient
+}
+
+func newClient(config *RedisOptions) *RedisClient {
 	client := RedisClient{config}
 	redisServer := server.NewServer("6379")
 	go redisServer.Run()
