@@ -1,10 +1,16 @@
-<script>
+<script lang="ts">
   import {toast} from "@zerodevx/svelte-toast";
+  import type {Resp} from "./ShortenUrlPage.types.svelte";
 
-  export let data;
+  export let data: Resp;
 
   function copyToClipboard() {
-    navigator.clipboard.writeText(data.short_url);
+    const textField = document.createElement('textarea');
+    textField.value = data.short_url;
+    document.body.appendChild(textField);
+    textField.select();
+    document.execCommand('copy');
+    document.body.removeChild(textField);
     toast.push('Link copied', {classes: ['info'], duration: 1000},)
   }
 
