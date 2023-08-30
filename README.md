@@ -1,6 +1,5 @@
 ## <p align="center"> URL Shortener </p>
 
----
 <p style="text-align: center"> implementation in Go of https://codingchallenges.fyi/challenges/challenge-url-shortener/ </p>
 
 <p style="text-align: justify">This is a web application that allows users to (shorten) long URLs, making them easier to share and manage.
