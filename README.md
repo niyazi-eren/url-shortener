@@ -8,7 +8,6 @@
 In its current state though I use ec2 public DNS which makes it more of a url extender.</p>
 
 ### Stack
-
 ---
 
 Backend: Go, Chi (router), Redis lite (own implementation: [Redis Lite](https://github.com/niyazi-eren/coding-challenges/tree/master/redis_server))
