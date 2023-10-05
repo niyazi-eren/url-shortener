@@ -12,8 +12,3 @@ In its current state though I use ec2 public DNS which makes it more of a url ex
 <b>Frontend</b>: Svelte, TypeScript, Tailwind CSS
 
 <b>CI/CD / Deployment</b>: GitHub Actions, Terraform, AWS EC2
-
-
----
-
-### Live version: [here](http://ec2-13-39-47-222.eu-west-3.compute.amazonaws.com)
