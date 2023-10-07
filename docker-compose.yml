@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  go:
+    build:
+      dockerfile: go.dockerfile
+    ports:
+      - "80:80"
+  svelte:
+    build:
+      context: ./web/app
+      dockerfile: svelte.dockerfile
+    ports:
+      - "5000:5173"
