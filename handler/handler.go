@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	constants "url-shortener/const"
 	"url-shortener/model/entity"
 	"url-shortener/model/request"
 	"url-shortener/model/response"
@@ -127,10 +126,15 @@ func validateURL(uri string) error {
 }
 
 func generateResponse(url entity.Url) response.Response {
+	host := os.Getenv(PUBLIC_DNS)
+	if host == "" {
+		host = "127.0.0.1"
+	}
+
 	return response.Response{
 		Key:      url.Hash,
 		LongUrl:  url.LongUrl,
-		ShortUrl: "http://" + os.Getenv(PUBLIC_DNS) + constants.PORT + "/" + url.Hash,
+		ShortUrl: "http://" + host + "/" + url.Hash,
 	}
 }
 

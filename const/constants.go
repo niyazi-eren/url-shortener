@@ -1,3 +1,3 @@
 package constants
 
-const PORT = ":8080"
+const PORT = ":80"
